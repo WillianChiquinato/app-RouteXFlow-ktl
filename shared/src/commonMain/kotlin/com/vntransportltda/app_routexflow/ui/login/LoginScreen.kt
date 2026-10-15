@@ -70,6 +70,7 @@ fun LoginScreen(
     onForgotPassword: () -> Unit = {},
     onCreateAccount: () -> Unit = {},
     error: String? = null,
+    loading: Boolean = false,
 ) {
     val fonts = LocalRxfFonts.current
     var email by remember { mutableStateOf("") }
@@ -191,12 +192,12 @@ fun LoginScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(14.dp))
-                        .background(RxfColors.Green)
-                        .clickable { onLogin(email.trim(), password) }
+                        .background(if (loading) RxfColors.GreenHover else RxfColors.Green)
+                        .clickable(enabled = !loading) { onLogin(email.trim(), password) }
                         .padding(horizontal = 20.dp, vertical = 16.dp),
                 ) {
                     Text(
-                        "Entrar no aplicativo",
+                        if (loading) "Entrando..." else "Entrar no aplicativo",
                         color = Color.White,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
